@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[ENCODER X-3]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #000;
+            color: #e6eef8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+            overflow-y: auto; /* Permitir scroll en el body */
+        }
+
+        .background {
+            position: fixed; /* Cambiado a fixed para que no afecte el scroll */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(40, 40, 40, 0.6), transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(30, 30, 30, 0.5), transparent 20%),
+                linear-gradient(90deg, #000, #0a0a0a);
+            animation: move 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes move {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            100% { transform: translate3d(3%, -2%, 0) scale(1.02); }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, rgba(0, 255, 255), rgb(255, 255, 255));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            opacity: 0.7;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            overflow: visible; /* Asegurar que no oculta contenido */
+        }
+
+        .input-group, .output-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #e6eef8;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            border-color: rgba(74, 159, 255, 0.5);
+        }
+
+        .output {
+            min-height: 150px;
+            max-height: 300px; /* Limitar altura máxima para scroll interno */
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            overflow-y: auto; /* Permitir scroll interno si es necesario */
+        }
+
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(74, 159, 255, 0.15);
+            color: #e6eef8;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background: rgba(74, 159, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(30, 30, 40, 0.4);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4a9fff;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="title">[ENCODER X-3]</h1>
+            <p class="subtitle">Property of BlackCore.</p>
+        </div>
+
+        <div class="card">
+            <div class="input-group">
+                <label for="input-text">INPUT:</label>
+                <textarea id="input-text" placeholder="..."></textarea>
+            </div>
+
+            <div class="output-group">
+                <label for="output">OUTPUT:</label>
+                <div id="output" class="output"></div>
+            </div>
+
+            <div class="controls">
+                <button id="copy-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+
+                </button>
+            </div>
+
+            <div class="info">
+                <span class="pulse"></span>
+                No rest for dreamers.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function codificarX27(texto) {
+            if (!texto) return '';
+
+            const caracteres = texto.split('');
+
+            const desplazados = caracteres.map((car, index) => {
+                let codigo = car.charCodeAt(0);
+
+                const desplazamiento = (index % 7) + 1;
+
+                if (index % 2 === 0) {
+                    codigo += desplazamiento;
+                } else {
+                    codigo -= desplazamiento;
+                }
+
+                while (codigo < 32) codigo += 95;
+                while (codigo > 126) codigo -= 95;
+                return String.fromCharCode(codigo);
+            });
+
+            const hexExtendido = desplazados.map(car => {
+                const codigo = car.charCodeAt(0);
+                let hex = codigo.toString(16).toUpperCase();
+
+                const prefijo = ['X', 'Z', 'A', 'F'][codigo % 4];
+                const sufijo = ['7', '9', '3', '5'][(codigo * 2) % 4];
+
+                return prefijo + hex.padStart(2, '0') + sufijo;
+            });
+
+            return hexExtendido.join('');
+        }
+
+        const inputText = document.getElementById('input-text');
+        const output = document.getElementById('output');
+        const copyBtn = document.getElementById('copy-btn');
+
+        inputText.addEventListener('input', function() {
+            const texto = inputText.value;
+            const codificado = codificarX27(texto);
+            output.textContent = codificado;
+        });
+
+        copyBtn.addEventListener('click', function() {
+            const texto = output.textContent;
+            if (!texto) return;
+
+            navigator.clipboard.writeText(texto)
+                .then(() => {
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = `
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Success
+                    `;
+
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+        });
+
+        // Inicializar con un ejemplo
+        inputText.value = "";
+        const codificado = codificarX27(inputText.value);
+        output.textContent = codificado;
+    </script>
+</body>
+</html>
