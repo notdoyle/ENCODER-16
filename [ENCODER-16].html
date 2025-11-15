@@ -200,7 +200,7 @@
 
     <div class="container">
         <div class="header">
-            <h1 class="title">[HEX ENCODER]</h1>
+            <h1 class="title">[ENCODER-16]</h1>
             <p class="subtitle">Property of BlackCore.</p>
         </div>
 
@@ -239,18 +239,14 @@
             let resultado = '';
 
             for (let i = 0; i < texto.length; i++) {
-                // Obtener el código del carácter
                 const codigo = texto.charCodeAt(i);
 
-                // Convertir a hexadecimal
                 let hex = codigo.toString(16).toUpperCase();
 
-                // Asegurar que tenga 2 dígitos
                 if (hex.length === 1) {
                     hex = '0' + hex;
                 }
 
-                // Agregar al resultado
                 resultado += hex;
             }
 
@@ -289,8 +285,6 @@
                     console.error('Failed to copy: ', err);
                 });
         });
-
-        // Inicializar vacío
         inputText.value = "";
         output.textContent = "";
     </script>
